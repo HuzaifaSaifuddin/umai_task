@@ -25,6 +25,8 @@ gem 'bootsnap', '>= 1.4.4', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  # Create Fake Data
+  gem 'faker', '~> 2.18'
 end
 
 group :development do
@@ -38,8 +40,6 @@ group :test do
   gem 'rspec-rails', '~> 5.0', '>= 5.0.1'
   # Create Factories
   gem 'factory_bot_rails', '~> 6.2'
-  # Create Fake Data
-  gem 'faker', '~> 2.18'
   # Shoulda Matchers provides RSpec one-liners to test common Rails functionality
   gem 'shoulda-matchers', '~> 4.5', '>= 4.5.1'
   # Test Coverage

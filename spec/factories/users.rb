@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :user do
-    username { Faker::Internet.username }
+    username { Faker::Internet.username + Faker::Number.number(digits: 10).to_s }
   end
 
   trait :user_posts do
