@@ -26,4 +26,12 @@ RSpec.describe User, type: :model do
       expect(user_feedbacks.feedbacks.length).to eq(2)
     end
   end
+
+  describe 'Downcase Username' do
+    it 'converts the username to downcase before saving' do
+      username = Faker::Internet.username.upcase
+      user = create(:user, username: username)
+      expect(user.username).to eq(username.downcase)
+    end
+  end
 end

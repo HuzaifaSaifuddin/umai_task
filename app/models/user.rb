@@ -8,4 +8,13 @@ class User
   has_many :feedbacks, as: :entity
 
   validates_presence_of :username
+  validates_uniqueness_of :username
+
+  before_validation :downcase_username
+
+  private
+
+  def downcase_username
+    self.username = username.downcase if username.present?
+  end
 end

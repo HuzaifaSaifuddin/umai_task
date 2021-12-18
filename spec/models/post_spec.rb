@@ -36,4 +36,12 @@ RSpec.describe Post, type: :model do
       expect(post_feedbacks.feedbacks.length).to eq(2)
     end
   end
+
+  describe 'Calculate Average Rating' do
+    it 'calculates the average rating of the Post' do
+      post = build_stubbed(:post, :post_ratings)
+      rating = post.ratings.pluck(:value).average.to_f
+      expect(post.calculate_average_rating).to eq(rating)
+    end
+  end
 end
