@@ -1,33 +1,30 @@
+puts Time.now.strftime('%I:%M:%S')
+user_ids = []
+100.times do |i|
+  user = User.create(username: Faker::Internet.username + Faker::Number.number(digits: 10).to_s)
+
+  if i % 2 != 0 # This will create 50 entries
+    user.feedbacks.create(comment: Faker::Lorem.sentence(word_count: 10), user: user_ids.sample)
+  end
+
+  user_ids << user.id.to_s
+end
+
 ip_lists = []
 50.times { ip_lists << Faker::Internet.ip_v4_address }
 
-100.times do
-  User.create(username: Faker::Internet.username + Faker::Number.number(digits: 10).to_s)
+20000.times do |i|
+  post = Post.create(title: Faker::Lorem.sentence(word_count: 2),
+                     content: Faker::Lorem.sentence(word_count: 10),
+                     author_ip: ip_lists.sample,
+                     user_id: user_ids.sample)
+
+  if i % 2 != 0 # This will create 10000 entries
+    post.feedbacks.create(comment: Faker::Lorem.sentence(word_count: 10), user: user_ids.sample)
+  end
+
+  3.times do
+    post.ratings.new(value: (1..5).to_a.sample).save
+  end
 end
-
-users = User.all.to_a
-user_ids = users.pluck(:id)
-
-20000.times do
-  Post.create(title: Faker::Lorem.sentence(word_count: 2),
-              content: Faker::Lorem.sentence(word_count: 10),
-              author_ip: ip_lists.sample,
-              user_id: user_ids.sample)
-end
-
-posts = Post.all.to_a
-post_ids = posts.pluck(:id)
-
-10000.times do
-  posts.sample.feedbacks.create(comment: Faker::Lorem.sentence(word_count: 10), user: users.sample)
-end
-
-50.times do
-  users.sample.feedbacks.create(comment: Faker::Lorem.sentence(word_count: 10), user: users.sample)
-end
-
-
-100000.times do
-  rating = Rating.new(value: (1..5).to_a.sample, post_id: post_ids.sample)
-  rating.save
-end
+puts Time.now.strftime('%I:%M:%S')
