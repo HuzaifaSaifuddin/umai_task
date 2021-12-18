@@ -81,7 +81,8 @@ RSpec.describe 'Api::V1::Posts', type: :request do
     end
 
     it 'loads N number of posts if limit specified' do
-      create_list(:post, 5, :post_ratings)
+      posts = create_list(:post, 5)
+      ratings = create_list(:rating, 2, post: posts.sample)
       get "/api/v1/posts/top_posts", headers: {}, params: { limit: 3 }
       expect(JSON.parse(response.body)['posts'].length).to eq(3)
     end
@@ -102,8 +103,8 @@ RSpec.describe 'Api::V1::Posts', type: :request do
       expect(response).to have_http_status(:ok)
     end
 
-    it 'loads N number of posts if limit specified' do
-      create_list(:post, 5, :post_ratings)
+    it 'returns a list of ips used to create post grouped by username' do
+      create_list(:post, 5)
       ip_lists = Post.all.group_by(&:author_ip).map do |ip, posts|
         [ip, posts.map { |post| post.user.username }.uniq]
       end

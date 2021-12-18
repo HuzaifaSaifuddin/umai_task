@@ -26,6 +26,13 @@ RSpec.describe 'Api::V1::Posts', type: :request do
       expect(response).to have_http_status(:bad_request)
     end
 
+    it 'doesnt create a feedback if entity doesnt exist' do
+      post '/api/v1/feedbacks', headers: {},
+                                params: { post_id: BSON::ObjectId.new,
+                                          feedback: { owner_id: feedback.owner_id } }
+      expect(response).to have_http_status(:bad_request)
+    end
+
     it 'doesnt create a feedback if comment/owner_id is missing' do
       new_post = create(:post)
       post '/api/v1/feedbacks', headers: {},

@@ -31,5 +31,10 @@ class Api::V1::FeedbacksController < ApplicationController
       render json: { errors: ["user_id or post_id is required"] }, status: :bad_request
       return
     end
+
+    if @entity.nil?
+      render json: { errors: ["No User/Post exists with given id"] }, status: :bad_request
+      return
+    end
   end
 end

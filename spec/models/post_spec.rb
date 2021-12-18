@@ -23,10 +23,10 @@ RSpec.describe Post, type: :model do
 
   describe 'Relations' do
     it 'allows post to have many rating' do
-      post = build_stubbed(:post)
-      post_ratings = build_stubbed(:post, :post_ratings)
-      expect(post_ratings).to be_valid
-      expect(post_ratings.ratings.length).to eq(2)
+      post = create(:post)
+      ratings = create_list(:rating, 2, post: post)
+      expect(post).to be_valid
+      expect(post.ratings.length).to eq(2)
     end
 
     it 'allows feedback to belong to an entity post' do
@@ -39,9 +39,10 @@ RSpec.describe Post, type: :model do
 
   describe 'Calculate Average Rating' do
     it 'calculates the average rating of the Post' do
-      post = build_stubbed(:post, :post_ratings)
-      rating = post.ratings.pluck(:value).average.to_f
-      expect(post.calculate_average_rating).to eq(rating)
+      post = create(:post)
+      ratings = create_list(:rating, 2, post: post)
+      rating_average = post.ratings.pluck(:value).average.to_f
+      expect(post.calculate_average_rating).to eq(rating_average)
     end
   end
 end

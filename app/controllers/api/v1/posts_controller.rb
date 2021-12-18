@@ -19,10 +19,8 @@ class Api::V1::PostsController < ApplicationController
     rating = post.ratings.new(value: params[:value])
 
     if rating.save
-      new_average_rating = post.calculate_average_rating.to_f
-      post.update(average_rating: new_average_rating)
-
-      render json: { post_rating: new_average_rating }, status: :created
+      post.reload
+      render json: { post_rating: post.average_rating }, status: :created
     else
       render json: { errors: rating.errors.full_messages }, status: :unprocessable_entity
     end

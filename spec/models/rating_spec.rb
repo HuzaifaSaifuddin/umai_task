@@ -25,4 +25,13 @@ RSpec.describe Rating, type: :model do
       expect(rating_post.post).to eq(post)
     end
   end
+
+  describe 'update_post_average_rating' do
+    it 'updates the posts average rating' do
+      post = create(:post)
+      ratings = create_list(:rating, 5, post: post)
+      rating_average = ratings.pluck(:value).average.to_f
+      expect(post.average_rating).to eq(rating_average)
+    end
+  end
 end

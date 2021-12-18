@@ -6,10 +6,6 @@ FactoryBot.define do
     user { create(:user) }
   end
 
-  trait :post_ratings do
-    ratings { create_list(:rating, 2) }
-  end
-
   trait :post_feedbacks do
     feedbacks { create_list(:feedback, 2) }
   end
